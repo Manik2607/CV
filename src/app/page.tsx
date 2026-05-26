@@ -45,6 +45,31 @@ const Linkedin = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
+interface HoverSectionWrapperProps {
+  children: React.ReactNode;
+  name: string;
+}
+
+function HoverSectionWrapper({ children, name }: HoverSectionWrapperProps) {
+  return (
+    <div className="relative group/section">
+      {/* Floating Section Name Badge Container */}
+      <div className="absolute inset-x-0 top-6 pointer-events-none z-30 opacity-0 group-hover/section:opacity-100 transition-all duration-300 -translate-y-2 group-hover/section:translate-y-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-16 lg:px-24">
+          <div className="inline-flex px-3 py-1.5 rounded-xl bg-slate-950/80 dark:bg-slate-900/95 text-emerald-400 text-xs font-mono border border-slate-200/20 dark:border-slate-800/80 shadow-xl items-center gap-2 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-slate-400">&lt;</span>
+            <span className="font-bold text-slate-200 dark:text-slate-100">{name}</span>
+            <span className="text-slate-400">/&gt;</span>
+          </div>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+
 export default function Home() {
   const { personal } = resumeData;
   const currentYear = new Date().getFullYear();
@@ -60,13 +85,27 @@ export default function Home() {
         <main className="w-full pb-24">
           
           {/* Main sections */}
-          <Hero />
-          <About />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Achievements />
-          <Contact />
+          <HoverSectionWrapper name="Hero">
+            <Hero />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="About">
+            <About />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="Experience">
+            <Experience />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="Projects">
+            <Projects />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="Skills">
+            <Skills />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="Achievements">
+            <Achievements />
+          </HoverSectionWrapper>
+          <HoverSectionWrapper name="Contact">
+            <Contact />
+          </HoverSectionWrapper>
 
           {/* Premium Footer */}
           <footer className="py-12 px-6 md:px-16 lg:px-24 border-t border-slate-200/50 dark:border-slate-900/50 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">

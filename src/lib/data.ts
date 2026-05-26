@@ -39,7 +39,7 @@ export interface AchievementItem {
 export const resumeData = {
   personal: {
     name: "Manik Sharma",
-    title: "Full-Stack Developer & Game Creator",
+    title: "Software Engineer | Game Developer",
     email: "maniksharma2607@gmail.com",
     phone: "+91-6006810778",
     location: "Jammu and Kashmir, India",
@@ -51,7 +51,7 @@ export const resumeData = {
     }
   },
   summary: 
-    "Full-Stack Developer with expertise in React, TypeScript, and FastAPI, plus game development experience leading Unity-based mobile projects. Proven ability to architect scalable systems, mentor development teams, and deliver user-focused applications. Strong foundation in frontend performance, backend APIs, clean architecture, and cross-platform development.",
+    "A highly versatile software engineer who began their journey at 16 designing interactive game logic, expanding into web engineering and low-level systems development. Today, I contribute structural performance refinements directly to the core C++ architecture of the Godot Engine, demonstrating an ability to master complex, low-level logical codebases. Driven by first-principles problem-solving, my mission is leverage my knowledge of low-level systems, custom engines, and compilers to deliver highly optimized solutions in any tech stack.",
   skills: [
     {
       name: "Programming Languages",
