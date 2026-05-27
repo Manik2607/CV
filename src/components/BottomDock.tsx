@@ -67,7 +67,7 @@ export default function BottomDock() {
   }
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-2xl">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-2xl">
       {/* Floating Liquid Glass Dock Wrapper */}
       <div className="relative liquid-glass rounded-2xl md:rounded-3xl p-2.5 flex items-center justify-between gap-1.5 md:gap-3 overflow-hidden shadow-2xl">
         

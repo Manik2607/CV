@@ -50,8 +50,8 @@ export const resumeData = {
       resumePdf: "https://drive.google.com/file/d/14dgBawoPKzDP7u5aSUtgdk6iiiIyir4p/view?usp=sharing"
     }
   },
-  summary: 
-    "A highly versatile software engineer who began their journey at 16 designing interactive game logic, expanding into web engineering and low-level systems development. Today, I contribute structural performance refinements directly to the core C++ architecture of the Godot Engine, demonstrating an ability to master complex, low-level logical codebases. Driven by first-principles problem-solving, my mission is leverage my knowledge of low-level systems, custom engines, and compilers to deliver highly optimized solutions in any tech stack.",
+  summary:
+    "I am a software engineer who began their journey at 16 designing interactive game logic, expanding into web development and low-level systems development. Today, I contribute structural performance refinements directly to the core C++ architecture of the Godot Engine, demonstrating an ability to master complex, low-level logical codebases. Driven by first-principles problem-solving, my mission is leverage my knowledge of low-level systems, custom engines, and compilers to deliver highly optimized solutions in any tech stack.",
   skills: [
     {
       name: "Programming Languages",

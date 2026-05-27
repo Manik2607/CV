@@ -14,7 +14,12 @@ export default function Experience() {
       company: experience[0].company,
       location: experience[0].location,
       date: experience[0].date,
-      description: experience[0].description,
+      summary: "Led mobile systems architecture, managing high-performance integrations and progression framework development.",
+      bullets: [
+        "Architected 12+ modular systems using event-driven singleton structures for mobile game frameworks.",
+        "Managed cross-platform rewarded, banner, and interstitial monetization integrations using Unity Ads SDK.",
+        "Designed persistent state hierarchies, dynamic game scaling algorithms, and 25-level checkpoint systems."
+      ],
       icon: Briefcase,
     },
     {
@@ -23,9 +28,11 @@ export default function Experience() {
       company: "Sri Krishna College of Engineering and Technology",
       location: "Coimbatore, India",
       date: "2023 – 2027 (Expected)",
-      description: [
-        "Pursuing rigorous specialized curriculum in Algorithms, Database Systems, Computer Networks, Software Engineering, and Object-Oriented Design.",
-        "Maintained high performance and focused academic rigor while independently working on production apps and open-source contributions."
+      summary: "Pursuing rigorous computer science fundamentals, focusing on databases, data structures, and algorithms.",
+      bullets: [
+        "Specialized in Algorithms, Systems Engineering, Computer Networks, and Object-Oriented Design.",
+        "Maintained high academic rigor while contributing actively to production applications.",
+        "Developed custom compiler experiments and low-level system designs independently."
       ],
       icon: GraduationCap,
     },
@@ -35,9 +42,11 @@ export default function Experience() {
       company: "Godot Engine & AI Labs",
       location: "GitHub",
       date: "2023 – Present",
-      description: [
-        "Submitted pull requests, bug fixes, and architecture feedback in C++ to Godot Engine repositories.",
-        "Built and distributed web utilities, game assets, and backend scripts across 50+ public repositories."
+      summary: "Active software creator contributing performance optimizations to core engine architectures.",
+      bullets: [
+        "Submitted low-level structural optimizations and C++ usability enhancements to Godot Engine.",
+        "Maintained over 50 GitHub repositories showcasing varied compiler and full-stack experiments.",
+        "Created optimized developer scripts and automation tooling used by the web developer community."
       ],
       icon: Award,
     }
@@ -83,7 +92,7 @@ export default function Experience() {
                 {/* Timeline Card */}
                 <div className="p-6 rounded-2xl bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 hover:border-emerald-500/40 dark:hover:border-emerald-500/30 hover:bg-slate-50/20 dark:hover:bg-slate-950/65 transition-all duration-300 shadow-sm hover:shadow-md">
                   {/* Card Header */}
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/60 pb-4 mb-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/60 pb-4 mb-4">
                     <div>
                       <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-slate-100">
                         {item.role}
@@ -99,17 +108,22 @@ export default function Experience() {
                       </div>
                     </div>
                     
-                    {/* Date badge */}
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 text-xs font-mono font-medium text-slate-600 dark:text-slate-400 self-start md:self-center">
+                    {/* Date badge (Separated & Right Aligned) */}
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 text-xs font-mono font-bold text-emerald-650 dark:text-emerald-400 self-start md:self-center md:text-right shrink-0">
                       <Calendar className="w-3.5 h-3.5 text-slate-400" />
                       <span>{item.date}</span>
                     </div>
                   </div>
 
-                  {/* Bullet points */}
-                  <ul className="space-y-3">
-                    {item.description.map((bullet, bulletIdx) => (
-                      <li key={bulletIdx} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {/* Role Brief Summary */}
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed mb-4 line-clamp-2 italic">
+                    {item.summary}
+                  </p>
+
+                  {/* High-impact bullet achievements */}
+                  <ul className="space-y-2.5">
+                    {item.bullets.map((bullet, bulletIdx) => (
+                      <li key={bulletIdx} className="flex items-start gap-2.5 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">
                         <span className="mt-1 flex-shrink-0">
                           <CheckCircle className={`w-3.5 h-3.5 ${
                             item.type === "experience" 

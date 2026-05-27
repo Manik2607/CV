@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import { resumeData } from "../lib/data";
 import { ExternalLink, ArrowRight, Download, Mail, Phone, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
@@ -36,9 +37,68 @@ const Linkedin = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+// --- Typewriter Hook ---
+const TYPING_SPEED = 80;
+const DELETING_SPEED = 40;
+const PAUSE_AFTER_TYPING = 2000;
+const PAUSE_AFTER_DELETING = 500;
+
+const typewriterPhrases = [
+  "Software Engineer",
+  "Game Developer",
+  "Open Source Contributor",
+  "Full-Stack Builder",
+  "Problem Solver",
+];
+
+function useTypewriter(phrases: string[]) {
+  const [displayText, setDisplayText] = useState("");
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const tick = useCallback(() => {
+    const currentPhrase = phrases[phraseIndex];
+
+    if (!isDeleting) {
+      // Typing forward
+      const nextText = currentPhrase.substring(0, displayText.length + 1);
+      setDisplayText(nextText);
+
+      if (nextText === currentPhrase) {
+        // Finished typing, pause then start deleting
+        setTimeout(() => setIsDeleting(true), PAUSE_AFTER_TYPING);
+        return;
+      }
+    } else {
+      // Deleting
+      const nextText = currentPhrase.substring(0, displayText.length - 1);
+      setDisplayText(nextText);
+
+      if (nextText === "") {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % phrases.length);
+        // Small pause before typing next word
+        setTimeout(() => {}, PAUSE_AFTER_DELETING);
+        return;
+      }
+    }
+  }, [displayText, isDeleting, phraseIndex, phrases]);
+
+  useEffect(() => {
+    const speed = isDeleting ? DELETING_SPEED : TYPING_SPEED;
+    const timer = setTimeout(tick, speed);
+    return () => clearTimeout(timer);
+  }, [tick, isDeleting]);
+
+  return displayText;
+}
+
 
 export default function Hero() {
   const { personal, summary } = resumeData;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const truncatedSummary = summary.length > 200 ? summary.substring(0, 200) + "..." : summary;
+  const typedText = useTypewriter(typewriterPhrases);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -119,49 +179,40 @@ export default function Hero() {
           </motion.p>
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-none"
+            className="text-4xl sm:text-5xl lg:text-[62px] font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-none"
           >
             {personal.name}
           </motion.h1>
+          {/* Typewriter subtitle */}
           <motion.h2
             variants={itemVariants}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-500 dark:text-slate-400 tracking-tight"
+            className="text-lg md:text-[20px] font-medium text-slate-500 dark:text-slate-400/80 tracking-tight h-8 flex items-center"
           >
-            {personal.title}
+            <span>{typedText}</span>
+            <span className="inline-block w-[2px] h-[1.2em] bg-emerald-500 dark:bg-emerald-400 ml-0.5 animate-blink" />
           </motion.h2>
         </div>
 
         {/* Bio summary */}
         <motion.p
           variants={itemVariants}
-          className="text-slate-600 dark:text-slate-400 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl font-normal"
+          className="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl font-normal"
         >
-          {summary}
+          {isExpanded ? summary : truncatedSummary}
+          {summary.length > 200 && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="ml-2 text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 font-mono text-[11px] font-bold focus:outline-none cursor-pointer inline-flex items-center gap-0.5"
+            >
+              {isExpanded ? "Read less" : "Read more"}
+            </button>
+          )}
         </motion.p>
 
-        {/* Brief Contact Badges */}
-        <motion.div 
-          variants={itemVariants}
-          className="flex flex-wrap items-center gap-y-3 gap-x-6 text-sm text-slate-500 dark:text-slate-400 font-mono"
-        >
-          <a href={`mailto:${personal.email}`} className="flex items-center gap-1.5 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
-            <Mail className="w-4 h-4 text-slate-400" />
-            <span>{personal.email}</span>
-          </a>
-          <a href={`tel:${personal.phone}`} className="flex items-center gap-1.5 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
-            <Phone className="w-4 h-4 text-slate-400" />
-            <span>{personal.phone}</span>
-          </a>
-          <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
-            <MapPin className="w-4 h-4" />
-            <span>{personal.location}</span>
-          </div>
-        </motion.div>
-
-        {/* Action Buttons & Socials */}
+        {/* Action Buttons & Socials (Moved Higher) */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap items-center gap-5 pt-4"
+          className="flex flex-wrap items-center gap-5 pt-2"
         >
           {/* Main CTAs */}
           <div className="flex flex-wrap items-center gap-3">
@@ -173,9 +224,8 @@ export default function Hero() {
               <ArrowRight className="w-4 h-4" />
             </button>
             <a
-              href={personal.links.resumePdf}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/resume.pdf"
+              download="Manik_Sharma_Resume.pdf"
               className="px-6 py-3.5 rounded-xl border border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 font-semibold text-sm transition-all duration-300 cursor-pointer flex items-center gap-2 hover:-translate-y-0.5 shadow-sm"
             >
               <span>Download PDF CV</span>
@@ -215,6 +265,25 @@ export default function Hero() {
             >
               <ExternalLink className="w-5 h-5" />
             </a>
+          </div>
+        </motion.div>
+
+        {/* Brief Contact Badges (Moved Lower) */}
+        <motion.div 
+          variants={itemVariants}
+          className="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-mono pt-4 border-t border-slate-200/30 dark:border-slate-850/20 w-full max-w-2xl"
+        >
+          <a href={`mailto:${personal.email}`} className="flex items-center gap-1.5 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
+            <Mail className="w-4 h-4 text-slate-400" />
+            <span>{personal.email}</span>
+          </a>
+          <a href={`tel:${personal.phone}`} className="flex items-center gap-1.5 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors">
+            <Phone className="w-4 h-4 text-slate-400" />
+            <span>{personal.phone}</span>
+          </a>
+          <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
+            <MapPin className="w-4 h-4" />
+            <span>{personal.location}</span>
           </div>
         </motion.div>
       </motion.div>

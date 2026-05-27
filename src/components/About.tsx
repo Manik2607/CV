@@ -40,21 +40,7 @@ export default function About() {
             </p>
           </div>
 
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-3 gap-4 pt-4">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 font-mono">50+</div>
-              <div className="text-xs text-slate-500 font-mono mt-1">Git Repos</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 font-mono">3+</div>
-              <div className="text-xs text-slate-500 font-mono mt-1">Prod Apps</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 font-mono">100+</div>
-              <div className="text-xs text-slate-500 font-mono mt-1">Active Users</div>
-            </div>
-          </div>
+
         </motion.div>
 
         {/* Visual Terminal / Code Block Column */}

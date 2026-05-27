@@ -14,6 +14,15 @@ const categoryIcons: Record<string, React.ComponentType<any>> = {
   "Tools & Platforms": Settings,
 };
 
+const primarySkills = new Set([
+  "TypeScript", "JavaScript", "C++", "C#", 
+  "React.js", "Next.js", "Tailwind CSS",
+  "Node.js", "FastAPI",
+  "PostgreSQL", "MongoDB",
+  "Unity Engine", "C# Scripting", "Godot Engine",
+  "Git", "Docker", "Vercel"
+]);
+
 export default function Skills() {
   const { skills } = resumeData;
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -55,7 +64,7 @@ export default function Skills() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
         >
           {skills.map((category) => {
             const Icon = categoryIcons[category.name] || Code2;
@@ -68,7 +77,7 @@ export default function Skills() {
                 variants={cardVariants}
                 onMouseEnter={() => setActiveCategory(category.name)}
                 onMouseLeave={() => setActiveCategory(null)}
-                className={`p-6 rounded-3xl bg-white dark:bg-slate-950/40 border transition-all duration-500 flex flex-col justify-between shadow-sm cursor-default relative overflow-hidden ${
+                className={`p-4 sm:p-6 rounded-3xl bg-white dark:bg-slate-950/40 border transition-all duration-500 flex flex-col justify-between shadow-sm cursor-default relative overflow-hidden ${
                   isHighlighted
                     ? "border-emerald-500/50 dark:border-emerald-400/40 bg-emerald-50/5 dark:bg-emerald-950/5 scale-[1.02] shadow-emerald-500/5 shadow-md"
                     : isSomeHighlighted
@@ -91,25 +100,28 @@ export default function Skills() {
                     }`}>
                       <Icon className="w-4 h-4" />
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-base">
                       {category.name}
                     </h3>
                   </div>
 
                   {/* Skill Node List */}
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium border tracking-tight transition-all duration-300 ${
-                          isHighlighted
-                            ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 border-slate-900 dark:border-white shadow-sm"
-                            : "bg-slate-50 text-slate-700 dark:bg-slate-900 dark:text-slate-400 border-slate-200/50 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700"
-                        }`}
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {category.skills.map((skill) => {
+                      const isPrimary = primarySkills.has(skill);
+                      return (
+                        <span
+                          key={skill}
+                          className={`px-2.5 py-1 rounded-xl font-mono border tracking-tight transition-all duration-300 ${
+                            isPrimary
+                              ? "text-[14px] font-bold border-slate-400 dark:border-slate-650 bg-slate-900 text-white dark:bg-white dark:text-slate-950 opacity-100 shadow-sm"
+                              : "text-[12px] font-medium border-slate-200/50 dark:border-slate-800/80 bg-slate-50 text-slate-700 dark:bg-slate-900/60 dark:text-slate-400 opacity-70"
+                          }`}
+                        >
+                          {skill}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
 

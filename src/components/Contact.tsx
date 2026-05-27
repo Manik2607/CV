@@ -17,40 +17,30 @@ export default function Contact() {
     setStatus("sending");
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/maniksharma2607@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          name: formState.name,
-          email: formState.email,
-          message: formState.message,
-          _subject: `New Portfolio Message from ${formState.name}`,
-        }),
-      });
+      const subject = encodeURIComponent(`Portfolio Contact from ${formState.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`
+      );
+      const mailtoUrl = `mailto:maniksharma2607@gmail.com?subject=${subject}&body=${body}`;
 
-      if (response.ok) {
-        setStatus("success");
-        setFormState({ name: "", email: "", message: "" });
-        // Reset status after 5 seconds
-        setTimeout(() => setStatus("idle"), 5000);
-      } else {
-        console.error("FormSubmit response error:", response.statusText);
-        setStatus("error");
-        setTimeout(() => setStatus("idle"), 5000);
-      }
+      // Open the user's default email client
+      window.location.href = mailtoUrl;
+
+      // Brief delay to let the email client open, then show success
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      setStatus("success");
+      setFormState({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 5000);
     } catch (error) {
-      console.error("Failed to send email:", error);
+      console.error("Failed to open email client:", error);
       setStatus("error");
       setTimeout(() => setStatus("idle"), 5000);
     }
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 px-6 md:px-16 lg:px-24 max-w-6xl mx-auto border-t border-slate-200/50 dark:border-slate-900/50">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <section id="contact" className="w-full bg-slate-100/30 dark:bg-slate-900/10 border-t border-slate-200/50 dark:border-slate-900/50 py-20 md:py-28">
+      <div className="px-6 md:px-16 lg:px-24 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left Side: Detail & Contact Info */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -111,6 +101,15 @@ export default function Contact() {
             onSubmit={handleSubmit}
             className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 shadow-md space-y-5"
           >
+            {/* Punchy Section Headline */}
+            <div className="pb-2">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+                Got an idea? Let's build something.
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-mono">
+                Fill in your details below and let's get started.
+              </p>
+            </div>
             {/* Name Input */}
             <div className="space-y-2">
               <label 
@@ -175,7 +174,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status !== "idle"}
-              className={`w-full py-3.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer shadow-md ${
+              className={`w-full h-12 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer shadow-md ${
                 status === "sending"
                   ? "bg-slate-700 dark:bg-slate-800 cursor-not-allowed"
                   : status === "success"

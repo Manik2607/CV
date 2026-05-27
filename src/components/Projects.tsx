@@ -30,6 +30,24 @@ export default function Projects() {
     { id: "backend", label: "Backend/APIs" },
   ] as const;
 
+  const cardBorders = [
+    "border-t-emerald-500 dark:border-t-emerald-400 hover:border-emerald-500/50 dark:hover:border-emerald-400/40",
+    "border-t-indigo-500 dark:border-t-indigo-400 hover:border-indigo-500/50 dark:hover:border-indigo-400/40",
+    "border-t-violet-500 dark:border-t-violet-400 hover:border-violet-500/50 dark:hover:border-violet-400/40",
+  ];
+
+  const textHovers = [
+    "group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
+    "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+    "group-hover:text-violet-600 dark:group-hover:text-violet-400",
+  ];
+
+  const dateColors = [
+    "text-emerald-600 dark:text-emerald-400",
+    "text-indigo-600 dark:text-indigo-400",
+    "text-violet-600 dark:text-violet-400",
+  ];
+
   return (
     <section id="projects" className="py-20 md:py-28 px-6 md:px-16 lg:px-24 max-w-6xl mx-auto border-t border-slate-200/50 dark:border-slate-900/50">
       <div className="space-y-12">
@@ -59,11 +77,11 @@ export default function Projects() {
                   }`}
                 >
                   {active && (
-                    <motion.div
-                      layoutId="activeFilter"
-                      className="absolute inset-0 bg-white dark:bg-slate-800 shadow-sm border border-slate-200/50 dark:border-slate-700/50 rounded-xl"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
+                     <motion.div
+                       layoutId="activeFilter"
+                       className="absolute inset-0 bg-white dark:bg-slate-800 shadow-sm border border-slate-200/50 dark:border-slate-700/50 rounded-xl"
+                       transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                     />
                   )}
                   <span className="relative z-10">{cat.label}</span>
                 </button>
@@ -78,7 +96,7 @@ export default function Projects() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           <AnimatePresence mode="popLayout">
-            {getFilteredProjects().map((project) => (
+            {getFilteredProjects().map((project, idx) => (
               <motion.div
                 layout
                 key={project.title}
@@ -86,16 +104,16 @@ export default function Projects() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="group flex flex-col justify-between p-6 rounded-3xl bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 hover:border-emerald-500/40 dark:hover:border-emerald-500/30 hover:bg-slate-50/10 dark:hover:bg-slate-950/60 transition-all duration-300 shadow-sm hover:shadow-md h-full"
+                className={`group flex flex-col justify-between p-6 rounded-3xl bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 ${cardBorders[idx % cardBorders.length]} border-t-[4px] hover:bg-slate-50/15 dark:hover:bg-slate-950/60 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1.5 h-full`}
               >
                 <div className="space-y-4">
                   {/* Card Title & Icon */}
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <span className="text-[10px] font-mono font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
+                      <span className={`text-[10px] font-mono font-bold tracking-widest ${dateColors[idx % dateColors.length]} uppercase`}>
                         {project.date}
                       </span>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mt-0.5">
+                      <h3 className={`text-xl font-extrabold text-slate-900 dark:text-slate-100 ${textHovers[idx % textHovers.length]} transition-colors mt-0.5`}>
                         {project.title}
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-0.5">
@@ -117,23 +135,11 @@ export default function Projects() {
                     )}
                   </div>
 
-                  {/* Tech stack badge tags */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tech.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/50 text-[10px] font-mono text-slate-600 dark:text-slate-400 tracking-tight"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
                   {/* Bullet description list */}
                   <ul className="space-y-2.5 pt-2">
-                    {project.description.map((bullet, idx) => (
+                    {project.description.map((bullet, bulletIdx) => (
                       <li
-                        key={idx}
+                        key={bulletIdx}
                         className="flex items-start gap-2 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed"
                       >
                         <span className="mt-1 text-emerald-500/70 dark:text-emerald-400/60 flex-shrink-0">
@@ -143,6 +149,18 @@ export default function Projects() {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Tech stack badge tags (Moved to Bottom) */}
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {project.tech.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/50 text-[10px] font-mono text-slate-600 dark:text-slate-400 tracking-tight"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Card Footer action button */}
